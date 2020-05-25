@@ -1,11 +1,9 @@
 public final class A /* A*/ {
-  @null()
   public static final A.Companion Companion;
 
   @kotlin.jvm.JvmStatic()
   public static final void f3();//  f3()
 
-  @null()
   public  A();//  .ctor()
 
 

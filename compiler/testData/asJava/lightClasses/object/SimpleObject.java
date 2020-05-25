@@ -1,7 +1,4 @@
 public final class A /* pack.A*/ {
-  @null()
-  public static final pack.A INSTANCE;
-
   @org.jetbrains.annotations.NotNull()
   public static final java.lang.String cv = "A" /* initializer type: java.lang.String */ /* constant value A */;
 
@@ -10,6 +7,8 @@ public final class A /* pack.A*/ {
   private static java.lang.String v;
 
   public static final int cc = 1 /* initializer type: int */ /* constant value 1 */;
+
+  public static final pack.A INSTANCE;
 
   @org.jetbrains.annotations.NotNull()
   public final java.lang.String getV();//  getV()

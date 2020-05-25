@@ -156,6 +156,8 @@ object PsiClassRenderer {
 
     private fun PsiAnnotation.renderAnnotation(): String {
 
+        if (qualifiedName == "kotlin.Metadata") return ""
+
         val renderedAttributes = parameterList.attributes.map {
             val attributeValue = it.value?.renderAnnotationMemberValue() ?: "?"
 
@@ -165,6 +167,11 @@ object PsiClassRenderer {
             }
 
             if (name !== null) "$name = $attributeValue" else attributeValue
+        }
+
+        val renderedAttributesString = renderedAttributes.joinToString()
+        if (qualifiedName == null && renderedAttributesString.isEmpty()) {
+            return ""
         }
         return "@$qualifiedName(${renderedAttributes.joinToString()})"
     }
@@ -177,9 +184,12 @@ object PsiClassRenderer {
                 continue
             }
 
-            annotationsBuffer.add(
-                annotation.renderAnnotation() + (if (this is PsiParameter) " " else "\n")
-            )
+            val renderedAnnotation = annotation.renderAnnotation()
+            if (renderedAnnotation.isNotEmpty()) {
+                annotationsBuffer.add(
+                    renderedAnnotation + (if (this is PsiParameter) " " else "\n")
+                )
+            }
         }
         annotationsBuffer.sort()
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2018 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Copyright 2010-2020 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
@@ -72,6 +72,8 @@ public actual fun CharSequence.regionMatches(thisOffset: Int, other: CharSequenc
 /**
  * Returns a copy of this string having its first letter uppercased, or the original string,
  * if it's empty or already starts with an upper case letter.
+ *
+ * Note that only the first [Char] is uppercased, thus supplementary characters are not handled.
  *
  * @sample samples.text.Strings.capitalize
  */

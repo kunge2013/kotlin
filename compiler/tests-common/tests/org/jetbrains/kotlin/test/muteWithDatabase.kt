@@ -48,7 +48,7 @@ private fun AutoMute.muteTest(testKey: String) {
     file.writeText(newMuted.joinToString("\n"))
 }
 
-private class MutedTest(
+internal class MutedTest(
     val key: String,
     @Suppress("unused") val issue: String?,
     val hasFailFile: Boolean,
@@ -83,12 +83,15 @@ private class MutedTest(
     }
 }
 
-private class MutedSet(muted: List<MutedTest>) {
+internal class MutedSet(muted: List<MutedTest>) {
     // Method key -> Simple class name -> List of muted tests
     private val cache: Map<String, Map<String, List<MutedTest>>> =
         muted
             .groupBy { it.methodKey } // Method key -> List of muted tests
             .mapValues { (_, tests) -> tests.groupBy { it.simpleClassName } }
+
+    private val flakyTests: List<MutedTest> =
+        muted.filter { it.isFlaky }
 
     fun mutedTest(testClass: Class<*>, methodKey: String): MutedTest? {
         val mutedTests = cache[methodKey]?.get(testClass.simpleName) ?: return null
@@ -97,13 +100,17 @@ private class MutedSet(muted: List<MutedTest>) {
             testClass.canonicalName.endsWith(mutedTest.classNameKey)
         }
     }
+
+    fun mutedFlakyTests() : List<MutedTest> {
+        return flakyTests
+    }
 }
 
 private fun loadMutedSet(files: List<File>): MutedSet {
     return MutedSet(files.flatMap { file -> loadMutedTests(file) })
 }
 
-private fun loadMutedTests(file: File): List<MutedTest> {
+internal fun loadMutedTests(file: File): List<MutedTest> {
     if (!file.exists()) {
         System.err.println("Can't find mute file: ${file.absolutePath}")
         return listOf()

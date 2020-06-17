@@ -121,6 +121,11 @@ public final class IrClass extends
             input.popLimit(limit);
             break;
           }
+          case 56: {
+            bitField0_ |= 0x00000008;
+            canConstructFakeOverrides_ = input.readBool();
+            break;
+          }
         }
       }
     } catch (org.jetbrains.kotlin.protobuf.InvalidProtocolBufferException e) {
@@ -302,6 +307,21 @@ public final class IrClass extends
   }
   private int superTypeMemoizedSerializedSize = -1;
 
+  public static final int CAN_CONSTRUCT_FAKE_OVERRIDES_FIELD_NUMBER = 7;
+  private boolean canConstructFakeOverrides_;
+  /**
+   * <code>optional bool can_construct_fake_overrides = 7 [default = false];</code>
+   */
+  public boolean hasCanConstructFakeOverrides() {
+    return ((bitField0_ & 0x00000008) == 0x00000008);
+  }
+  /**
+   * <code>optional bool can_construct_fake_overrides = 7 [default = false];</code>
+   */
+  public boolean getCanConstructFakeOverrides() {
+    return canConstructFakeOverrides_;
+  }
+
   private void initFields() {
     base_ = org.jetbrains.kotlin.backend.common.serialization.proto.IrDeclarationBase.getDefaultInstance();
     name_ = 0;
@@ -309,6 +329,7 @@ public final class IrClass extends
     typeParameter_ = java.util.Collections.emptyList();
     declaration_ = java.util.Collections.emptyList();
     superType_ = java.util.Collections.emptyList();
+    canConstructFakeOverrides_ = false;
   }
   private byte memoizedIsInitialized = -1;
   public final boolean isInitialized() {
@@ -375,6 +396,9 @@ public final class IrClass extends
     for (int i = 0; i < superType_.size(); i++) {
       output.writeInt32NoTag(superType_.get(i));
     }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      output.writeBool(7, canConstructFakeOverrides_);
+    }
     output.writeRawBytes(unknownFields);
   }
 
@@ -417,6 +441,10 @@ public final class IrClass extends
             .computeInt32SizeNoTag(dataSize);
       }
       superTypeMemoizedSerializedSize = dataSize;
+    }
+    if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      size += org.jetbrains.kotlin.protobuf.CodedOutputStream
+        .computeBoolSize(7, canConstructFakeOverrides_);
     }
     size += unknownFields.size();
     memoizedSerializedSize = size;
@@ -524,6 +552,8 @@ public final class IrClass extends
       bitField0_ = (bitField0_ & ~0x00000010);
       superType_ = java.util.Collections.emptyList();
       bitField0_ = (bitField0_ & ~0x00000020);
+      canConstructFakeOverrides_ = false;
+      bitField0_ = (bitField0_ & ~0x00000040);
       return this;
     }
 
@@ -574,6 +604,10 @@ public final class IrClass extends
         bitField0_ = (bitField0_ & ~0x00000020);
       }
       result.superType_ = superType_;
+      if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+        to_bitField0_ |= 0x00000008;
+      }
+      result.canConstructFakeOverrides_ = canConstructFakeOverrides_;
       result.bitField0_ = to_bitField0_;
       return result;
     }
@@ -618,6 +652,9 @@ public final class IrClass extends
           superType_.addAll(other.superType_);
         }
         
+      }
+      if (other.hasCanConstructFakeOverrides()) {
+        setCanConstructFakeOverrides(other.getCanConstructFakeOverrides());
       }
       setUnknownFields(
           getUnknownFields().concat(other.unknownFields));
@@ -1141,6 +1178,38 @@ public final class IrClass extends
     public Builder clearSuperType() {
       superType_ = java.util.Collections.emptyList();
       bitField0_ = (bitField0_ & ~0x00000020);
+      
+      return this;
+    }
+
+    private boolean canConstructFakeOverrides_ ;
+    /**
+     * <code>optional bool can_construct_fake_overrides = 7 [default = false];</code>
+     */
+    public boolean hasCanConstructFakeOverrides() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional bool can_construct_fake_overrides = 7 [default = false];</code>
+     */
+    public boolean getCanConstructFakeOverrides() {
+      return canConstructFakeOverrides_;
+    }
+    /**
+     * <code>optional bool can_construct_fake_overrides = 7 [default = false];</code>
+     */
+    public Builder setCanConstructFakeOverrides(boolean value) {
+      bitField0_ |= 0x00000040;
+      canConstructFakeOverrides_ = value;
+      
+      return this;
+    }
+    /**
+     * <code>optional bool can_construct_fake_overrides = 7 [default = false];</code>
+     */
+    public Builder clearCanConstructFakeOverrides() {
+      bitField0_ = (bitField0_ & ~0x00000040);
+      canConstructFakeOverrides_ = false;
       
       return this;
     }

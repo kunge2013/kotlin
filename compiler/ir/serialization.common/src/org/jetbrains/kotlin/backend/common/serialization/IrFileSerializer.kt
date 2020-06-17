@@ -1121,6 +1121,10 @@ open class IrFileSerializer(
             .setBase(serializeIrDeclarationBase(clazz, ClassFlags.encode(clazz)))
             .setName(serializeName(clazz.name))
 
+        if (!backendSpecificSerializeAllMembers(clazz)) {
+            proto.canConstructFakeOverrides = true
+        }
+
         clazz.declarations.forEach {
             if (memberNeedsSerialization(it)) proto.addDeclaration(serializeDeclaration(it))
         }

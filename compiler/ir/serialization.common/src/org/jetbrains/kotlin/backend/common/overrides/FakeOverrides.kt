@@ -50,12 +50,14 @@ interface PlatformFakeOverrideClassFilter {
 object DefaultFakeOverrideClassFilter : PlatformFakeOverrideClassFilter
 
 object FakeOverrideControl {
-    // If set to true: all fake overrides go to klib serialized IR.
+    // If set to true: all fake overrides go to klib serialized IR
+    // and eligible classes are marked with can_constuct_fake_overrides bit in proto buf.
     // If set to false: eligible fake overrides are not serialized.
-    val serializeFakeOverrides: Boolean = false
+    val serializeFakeOverrides: Boolean = true
 
     // If set to true: fake overrides are deserialized from klib serialized IR.
     // If set to false: eligible fake overrides are constructed within IR linker.
+    // This is the default in the absence of -Xdeserialize-fake-overrides flag.
     val deserializeFakeOverrides: Boolean = false
 }
 

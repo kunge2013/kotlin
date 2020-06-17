@@ -74,4 +74,13 @@ public interface IrClassOrBuilder extends
    * <code>repeated int32 super_type = 6 [packed = true];</code>
    */
   int getSuperType(int index);
+
+  /**
+   * <code>optional bool can_construct_fake_overrides = 7 [default = false];</code>
+   */
+  boolean hasCanConstructFakeOverrides();
+  /**
+   * <code>optional bool can_construct_fake_overrides = 7 [default = false];</code>
+   */
+  boolean getCanConstructFakeOverrides();
 }

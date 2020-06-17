@@ -54,7 +54,8 @@ abstract class KotlinIrLinker(
     val logger: LoggingContext,
     val builtIns: IrBuiltIns,
     val symbolTable: SymbolTable,
-    private val exportedDependencies: List<ModuleDescriptor>
+    private val exportedDependencies: List<ModuleDescriptor>,
+    private val deserializeFakeOverrides: Boolean
 ) : IrDeserializer {
 
     // Kotlin-MPP related data. Consider some refactoring
@@ -163,7 +164,6 @@ abstract class KotlinIrLinker(
                                       fileIndex,
                                       !strategy.needBodies,
                                        strategy.inlineBodies,
-                                      !strategy.fakeOverrides,
                                       moduleDeserializer).apply {
 
                     // Explicitly exported declarations (e.g. top-level initializers) must be deserialized before all other declarations.
@@ -225,9 +225,8 @@ abstract class KotlinIrLinker(
         private val fileIndex: Int,
         onlyHeaders: Boolean,
         inlineBodies: Boolean,
-        constructFakeOverrrides: Boolean,
         private val moduleDeserializer: IrModuleDeserializer,
-    ) : IrFileDeserializer(logger, builtIns, symbolTable, constructFakeOverrrides, !onlyHeaders) {
+    ) : IrFileDeserializer(logger, builtIns, symbolTable, !onlyHeaders) {
 
         private var fileLoops = mutableMapOf<Int, IrLoopBase>()
 
@@ -586,9 +585,11 @@ abstract class KotlinIrLinker(
     override fun postProcess() {
         finalizeExpectActualLinker()
 
-        deserializersForModules.values.forEach {
-            it.postProcess {
-                fakeOverrideBuilderImpl.provideFakeOverrides(it)
+        if (!deserializeFakeOverrides) {
+            deserializersForModules.values.forEach {
+                it.postProcess {
+                    fakeOverrideBuilderImpl.provideFakeOverrides(it)
+                }
             }
         }
 

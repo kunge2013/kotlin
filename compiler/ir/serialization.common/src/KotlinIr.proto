@@ -493,6 +493,7 @@ message IrClass {
   repeated IrTypeParameter type_parameter = 4;
   repeated IrDeclaration declaration = 5;
   repeated int32 super_type = 6 [packed=true];
+  optional bool can_construct_fake_overrides = 7 [default = false];
 }
 
 message IrTypeAlias {

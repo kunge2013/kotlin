@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.backend.common.ir.BuiltinSymbolsBase
 import org.jetbrains.kotlin.config.LanguageVersionSettings
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.backend.evaluate.IrConstTransformer
+import org.jetbrains.kotlin.fir.backend.evaluate.evaluateConstants
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.descriptors.FirModuleDescriptor
 import org.jetbrains.kotlin.fir.psi
@@ -226,9 +227,7 @@ class Fir2IrConverter(
                 descriptor.owner.parent = parentClass ?: continue
             }
 
-            irModuleFragment.files.forEach {
-                it.transformChildren(IrConstTransformer(irModuleFragment), null)
-            }
+            evaluateConstants(irModuleFragment)
 
             return Fir2IrResult(irModuleFragment, symbolTable, sourceManager, components)
         }

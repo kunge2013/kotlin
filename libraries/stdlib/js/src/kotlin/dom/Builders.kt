@@ -6,12 +6,14 @@
 package kotlin.dom
 
 import org.w3c.dom.*
+import kotlin.internal.LowPriorityInOverloadResolution
 
 /**
  * Creates a new element with the specified [name].
  *
  * The element is initialized with the speicifed [init] function.
  */
+@LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
     replaceWith = ReplaceWith("this.createElement(name, init)", "kotlinx.dom.createElement")
@@ -23,6 +25,7 @@ public fun Document.createElement(name: String, init: Element.() -> Unit): Eleme
  *
  * The element is initialized with the speicifed [init] function.
  */
+@LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
     replaceWith = ReplaceWith("this.appendElement(name, init)", "kotlinx.dom.appendElement")

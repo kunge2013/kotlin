@@ -6,8 +6,10 @@
 package kotlin.dom
 
 import org.w3c.dom.*
+import kotlin.internal.LowPriorityInOverloadResolution
 
 /** Removes all the children from this node. */
+@LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
     replaceWith = ReplaceWith("this.clear()", "kotlinx.dom.clear")
@@ -23,6 +25,7 @@ public fun Node.clear() {
  *
  * @return this element
  */
+@LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
     replaceWith = ReplaceWith("this.appendText(text)", "kotlinx.dom.appendText")

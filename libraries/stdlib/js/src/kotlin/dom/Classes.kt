@@ -6,8 +6,10 @@
 package kotlin.dom
 
 import org.w3c.dom.*
+import kotlin.internal.LowPriorityInOverloadResolution
 
 /** Returns true if the element has the given CSS class style in its 'class' attribute */
+@LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
     replaceWith = ReplaceWith("this.hasClass(cssClass)", "kotlinx.dom.hasClass")
@@ -19,6 +21,7 @@ fun Element.hasClass(cssClass: String): Boolean = className.matches("""(^|.*\s+)
  *
  * @return true if at least one class has been added
  */
+@LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
     replaceWith = ReplaceWith("this.addClass(cssClasses)", "kotlinx.dom.addClass")
@@ -45,6 +48,7 @@ fun Element.addClass(vararg cssClasses: String): Boolean {
  *
  * @return true if at least one class has been removed
  */
+@LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
     replaceWith = ReplaceWith("this.removeClass(cssClasses)", "kotlinx.dom.removeClass")

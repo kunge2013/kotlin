@@ -6,10 +6,12 @@
 package kotlin.dom
 
 import org.w3c.dom.*
+import kotlin.internal.LowPriorityInOverloadResolution
 
 /**
  * Gets a value indicating whether this node is a TEXT_NODE or a CDATA_SECTION_NODE.
  */
+@LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
     replaceWith = ReplaceWith("this.isText", "kotlinx.dom.isText")
@@ -20,6 +22,7 @@ public val Node.isText: Boolean
 /**
  * Gets a value indicating whether this node is an [Element].
  */
+@LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
     replaceWith = ReplaceWith("this.isElement", "kotlinx.dom.isElement")

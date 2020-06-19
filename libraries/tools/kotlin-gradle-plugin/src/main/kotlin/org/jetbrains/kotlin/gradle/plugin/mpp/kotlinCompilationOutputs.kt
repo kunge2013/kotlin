@@ -8,24 +8,32 @@ package org.jetbrains.kotlin.gradle.plugin.mpp
 import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.FileCollection
+import org.gradle.api.file.ProjectLayout
+import org.gradle.api.model.ObjectFactory
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilationOutput
+import sun.misc.JavaxCryptoSealedObjectAccess
 import java.io.File
 import java.util.concurrent.Callable
 
 class DefaultKotlinCompilationOutput(
-    private val project: Project,
-    override var resourcesDirProvider: Any
+    private val projectLayout: ProjectLayout,
+    private val objectFactory: ObjectFactory,
+    private val path: String,
+    override var resourcesDirProvider: Any //TODO
 ) : KotlinCompilationOutput, Callable<FileCollection> {
 
-    override val classesDirs: ConfigurableFileCollection = project.files()
+    override val classesDirs: ConfigurableFileCollection = objectFactory.fileCollection()
 
-    override val allOutputs = project.files().apply {
+    override val allOutputs = objectFactory.fileCollection().apply {
         from(classesDirs)
         from(Callable { resourcesDir })
     }
 
     override val resourcesDir: File
-        get() = project.file(resourcesDirProvider)
+        //TODO
+        get() {
+            return projectLayout.projectDirectory.file(path).asFile
+        }
 
     override fun call(): FileCollection = allOutputs
 }

@@ -10,6 +10,7 @@ import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.tooling.provider.model.ToolingModelBuilder
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.model.CompilerArguments
 import org.jetbrains.kotlin.gradle.model.ExperimentalFeatures
 import org.jetbrains.kotlin.gradle.model.KotlinProject
@@ -144,7 +145,7 @@ class KotlinModelBuilder(private val kotlinPluginVersion: String, private val an
         }
 
         private fun AbstractKotlinCompile<*>.createExperimentalFeatures(): ExperimentalFeatures {
-            return ExperimentalFeaturesImpl(coroutinesStr)
+            return ExperimentalFeaturesImpl(coroutinesStr.get())
         }
     }
 }

@@ -23,7 +23,6 @@ import org.gradle.api.internal.FeaturePreviews
 import org.gradle.api.internal.file.FileResolver
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
-import org.gradle.build.event.BuildEventsListenerRegistry
 import org.gradle.tooling.provider.model.ToolingModelBuilderRegistry
 import org.jetbrains.kotlin.gradle.dsl.*
 import org.jetbrains.kotlin.gradle.logging.kotlinDebug
@@ -159,8 +158,7 @@ open class Kotlin2JsPluginWrapper @Inject constructor(
 }
 
 open class KotlinJsPluginWrapper @Inject constructor(
-    fileResolver: FileResolver,
-    listenerRegistry: BuildEventsListenerRegistry
+    fileResolver: FileResolver
 ) : KotlinBasePluginWrapper(fileResolver) {
     override fun getPlugin(project: Project, kotlinGradleBuildServices: KotlinGradleBuildServices): Plugin<Project> =
         KotlinJsPlugin(kotlinPluginVersion)

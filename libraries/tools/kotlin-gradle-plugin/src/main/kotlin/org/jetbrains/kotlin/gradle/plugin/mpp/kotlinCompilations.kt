@@ -87,8 +87,11 @@ abstract class AbstractKotlinCompilation<T : KotlinCommonOptions>(
 
     override val output: KotlinCompilationOutput by lazy {
         DefaultKotlinCompilationOutput(
-            target.project,
-            Callable { target.project.buildDir.resolve("processedResources/${target.targetName}/$name") })
+            target.project.layout,
+            target.project.objects,
+            "processedResources/${target.targetName}/$name",
+            target.project.buildDir.resolve("processedResources/${target.targetName}/$name")
+        )
     }
 
     open fun addSourcesToCompileTask(sourceSet: KotlinSourceSet, addAsCommonSources: Lazy<Boolean>) {

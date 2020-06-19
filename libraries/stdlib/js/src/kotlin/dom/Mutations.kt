@@ -5,8 +5,11 @@
 
 package kotlin.dom
 
-import org.w3c.dom.*
+import org.w3c.dom.Element
+import org.w3c.dom.Node
 import kotlin.internal.LowPriorityInOverloadResolution
+import kotlinx.dom.appendText as newAppendText
+import kotlinx.dom.clear as newClear
 
 /** Removes all the children from this node. */
 @LowPriorityInOverloadResolution
@@ -14,11 +17,7 @@ import kotlin.internal.LowPriorityInOverloadResolution
     message = "This API is moved to another package, use 'kotlinx.dom.clear' instead.",
     replaceWith = ReplaceWith("this.clear()", "kotlinx.dom.clear")
 )
-public fun Node.clear() {
-    while (hasChildNodes()) {
-        removeChild(firstChild!!)
-    }
-}
+public inline fun Node.clear() = this.newClear()
 
 /**
  * Creates text node and append it to the element.
@@ -30,7 +29,4 @@ public fun Node.clear() {
     message = "This API is moved to another package, use 'kotlinx.dom.appendText' instead.",
     replaceWith = ReplaceWith("this.appendText(text)", "kotlinx.dom.appendText")
 )
-fun Element.appendText(text: String): Element {
-    appendChild(ownerDocument!!.createTextNode(text))
-    return this
-}
+inline fun Element.appendText(text: String): Element = this.newAppendText(text)

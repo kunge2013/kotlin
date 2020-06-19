@@ -5,8 +5,11 @@
 
 package kotlin.dom
 
-import org.w3c.dom.*
+import org.w3c.dom.Element
 import kotlin.internal.LowPriorityInOverloadResolution
+import kotlinx.dom.addClass as newAddClass
+import kotlinx.dom.hasClass as newHasClass
+import kotlinx.dom.removeClass as newRemoveClass
 
 /** Returns true if the element has the given CSS class style in its 'class' attribute */
 @LowPriorityInOverloadResolution
@@ -14,7 +17,7 @@ import kotlin.internal.LowPriorityInOverloadResolution
     message = "This API is moved to another package, use 'kotlinx.dom.hasClass' instead.",
     replaceWith = ReplaceWith("this.hasClass(cssClass)", "kotlinx.dom.hasClass")
 )
-fun Element.hasClass(cssClass: String): Boolean = className.matches("""(^|.*\s+)$cssClass($|\s+.*)""".toRegex())
+inline fun Element.hasClass(cssClass: String): Boolean = this.newHasClass(cssClass)
 
 /**
  * Adds CSS class to element. Has no effect if all specified classes are already in class attribute of the element
@@ -26,22 +29,7 @@ fun Element.hasClass(cssClass: String): Boolean = className.matches("""(^|.*\s+)
     message = "This API is moved to another package, use 'kotlinx.dom.addClass' instead.",
     replaceWith = ReplaceWith("this.addClass(cssClasses)", "kotlinx.dom.addClass")
 )
-fun Element.addClass(vararg cssClasses: String): Boolean {
-    val missingClasses = cssClasses.filterNot { hasClass(it) }
-    if (missingClasses.isNotEmpty()) {
-        val presentClasses = className.trim()
-        className = buildString {
-            append(presentClasses)
-            if (!presentClasses.isEmpty()) {
-                append(" ")
-            }
-            missingClasses.joinTo(this, " ")
-        }
-        return true
-    }
-
-    return false
-}
+inline fun Element.addClass(vararg cssClasses: String): Boolean = this.newAddClass(*cssClasses)
 
 /**
  * Removes all [cssClasses] from element. Has no effect if all specified classes are missing in class attribute of the element
@@ -53,12 +41,4 @@ fun Element.addClass(vararg cssClasses: String): Boolean {
     message = "This API is moved to another package, use 'kotlinx.dom.removeClass' instead.",
     replaceWith = ReplaceWith("this.removeClass(cssClasses)", "kotlinx.dom.removeClass")
 )
-fun Element.removeClass(vararg cssClasses: String): Boolean {
-    if (cssClasses.any { hasClass(it) }) {
-        val toBeRemoved = cssClasses.toSet()
-        className = className.trim().split("\\s+".toRegex()).filter { it !in toBeRemoved }.joinToString(" ")
-        return true
-    }
-
-    return false
-}
+inline fun Element.removeClass(vararg cssClasses: String): Boolean = this.newRemoveClass(*cssClasses)

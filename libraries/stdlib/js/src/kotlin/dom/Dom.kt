@@ -5,8 +5,11 @@
 
 package kotlin.dom
 
-import org.w3c.dom.*
+import org.w3c.dom.Element
+import org.w3c.dom.Node
 import kotlin.internal.LowPriorityInOverloadResolution
+import kotlinx.dom.isElement as newIsElement
+import kotlinx.dom.isText as newIsText
 
 /**
  * Gets a value indicating whether this node is a TEXT_NODE or a CDATA_SECTION_NODE.
@@ -17,7 +20,7 @@ import kotlin.internal.LowPriorityInOverloadResolution
     replaceWith = ReplaceWith("this.isText", "kotlinx.dom.isText")
 )
 public val Node.isText: Boolean
-    get() = nodeType == Node.TEXT_NODE || nodeType == Node.CDATA_SECTION_NODE
+    inline get() = this.newIsText
 
 /**
  * Gets a value indicating whether this node is an [Element].
@@ -28,4 +31,4 @@ public val Node.isText: Boolean
     replaceWith = ReplaceWith("this.isElement", "kotlinx.dom.isElement")
 )
 public val Node.isElement: Boolean
-    get() = nodeType == Node.ELEMENT_NODE
+    inline get() = this.newIsElement

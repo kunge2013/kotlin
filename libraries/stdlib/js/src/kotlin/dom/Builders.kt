@@ -5,10 +5,11 @@
 
 package kotlin.dom
 
-import org.w3c.dom.*
+import org.w3c.dom.Document
+import org.w3c.dom.Element
 import kotlin.internal.LowPriorityInOverloadResolution
-import kotlinx.dom.createElement
-import kotlin.internal.InlineOnly
+import kotlinx.dom.appendElement as newAppendElement
+import kotlinx.dom.createElement as newCreateElement
 
 /**
  * Creates a new element with the specified [name].
@@ -20,7 +21,7 @@ import kotlin.internal.InlineOnly
     message = "This API is moved to another package, use 'kotlinx.dom.createElement' instead.",
     replaceWith = ReplaceWith("this.createElement(name, init)", "kotlinx.dom.createElement")
 )
-public fun Document.createElement(name: String, init: Element.() -> Unit): Element = createElement(name).apply(init)
+public inline fun Document.createElement(name: String, noinline init: Element.() -> Unit): Element = this.newCreateElement(name, init)
 
 /**
  * Appends a newly created element with the specified [name] to this element.
@@ -32,6 +33,5 @@ public fun Document.createElement(name: String, init: Element.() -> Unit): Eleme
     message = "This API is moved to another package, use 'kotlinx.dom.appendElement' instead.",
     replaceWith = ReplaceWith("this.appendElement(name, init)", "kotlinx.dom.appendElement")
 )
-public fun Element.appendElement(name: String, init: Element.() -> Unit): Element =
-    ownerDocument!!.createElement(name, init).also { appendChild(it) }
+public inline fun Element.appendElement(name: String, noinline init: Element.() -> Unit): Element = this.newAppendElement(name, init)
 

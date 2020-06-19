@@ -31,6 +31,7 @@
 -dontwarn javaslang.*
 -dontwarn kotlinx.collections.immutable.*
 -dontwarn kotlinx.collections.immutable.**
+-dontwarn kotlinx.coroutines.**
 -dontwarn com.google.errorprone.**
 -dontwarn com.google.j2objc.**
 -dontwarn javax.crypto.**

@@ -11,7 +11,7 @@ import kotlin.internal.LowPriorityInOverloadResolution
 /** Removes all the children from this node. */
 @LowPriorityInOverloadResolution
 @Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
+    message = "This API is moved to another package, use 'kotlinx.dom.clear' instead.",
     replaceWith = ReplaceWith("this.clear()", "kotlinx.dom.clear")
 )
 public fun Node.clear() {
@@ -27,7 +27,7 @@ public fun Node.clear() {
  */
 @LowPriorityInOverloadResolution
 @Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
+    message = "This API is moved to another package, use 'kotlinx.dom.appendText' instead.",
     replaceWith = ReplaceWith("this.appendText(text)", "kotlinx.dom.appendText")
 )
 fun Element.appendText(text: String): Element {

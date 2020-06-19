@@ -13,7 +13,7 @@ import kotlin.internal.LowPriorityInOverloadResolution
  */
 @LowPriorityInOverloadResolution
 @Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
+    message = "This API is moved to another package, use 'kotlinx.dom.isText' instead.",
     replaceWith = ReplaceWith("this.isText", "kotlinx.dom.isText")
 )
 public val Node.isText: Boolean
@@ -24,7 +24,7 @@ public val Node.isText: Boolean
  */
 @LowPriorityInOverloadResolution
 @Deprecated(
-    message = "This API is deprecated and will be removed soon, use 'kotlinx.dom' package instead",
+    message = "This API is moved to another package, use 'kotlinx.dom.isElement' instead.",
     replaceWith = ReplaceWith("this.isElement", "kotlinx.dom.isElement")
 )
 public val Node.isElement: Boolean

@@ -215,3 +215,5 @@ internal fun IrType.isFunction() = this.getClass()?.fqNameWhenAvailable?.asStrin
 internal fun IrType.isTypeParameter() = classifierOrNull is IrTypeParameterSymbol
 
 internal fun IrType.isInterface() = classOrNull?.owner?.kind == ClassKind.INTERFACE
+
+internal fun IrType.isThrowable() = this.getClass()?.fqNameWhenAvailable?.asString() == "kotlin.Throwable"

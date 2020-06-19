@@ -6,7 +6,6 @@
 package org.jetbrains.kotlin.ir.interpreter.state
 
 import org.jetbrains.kotlin.ir.interpreter.builtins.evaluateIntrinsicAnnotation
-import org.jetbrains.kotlin.builtins.jvm.JavaToKotlinClassMap
 import org.jetbrains.kotlin.ir.interpreter.*
 import org.jetbrains.kotlin.ir.interpreter.getEvaluateIntrinsicValue
 import org.jetbrains.kotlin.ir.interpreter.getPrimitiveClass
@@ -18,7 +17,6 @@ import org.jetbrains.kotlin.ir.declarations.impl.IrFunctionImpl
 import org.jetbrains.kotlin.ir.symbols.IrFunctionSymbol
 import org.jetbrains.kotlin.ir.types.*
 import org.jetbrains.kotlin.ir.util.*
-import org.jetbrains.kotlin.name.FqNameUnsafe
 import java.lang.invoke.MethodHandle
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
@@ -111,18 +109,36 @@ internal class Wrapper(val value: Any, override val irClass: IrClass) : Complex(
             val owner = this.classOrNull?.owner
             val fqName = owner?.fqNameWhenAvailable?.asString()
             val notNullType = this.makeNotNull()
-
             //TODO check if primitive array is possible here
             return when {
                 notNullType.isPrimitiveType() || notNullType.isString() -> getPrimitiveClass(notNullType, asObject)!!
                 notNullType.isArray() -> if (asObject) Array<Any?>::class.javaObjectType else Array<Any?>::class.java
+                notNullType.isNothing() -> Nothing::class.java
+                notNullType.isAny() -> Any::class.java
+                notNullType.isNumber() -> Number::class.java
+                notNullType.isCharSequence() -> CharSequence::class.java
+                notNullType.isComparable() -> Comparable::class.java
+                notNullType.isThrowable() -> Throwable::class.java
+                notNullType.isIterable() -> Iterable::class.java
+
+                // TODO implement function mapping; all complexity is to map big arity to FunctionN
+                //notNullType.isKFunction() -> Class.forName("kotlin.reflect.KFunction")
+                //notNullType.isFunction() -> Class.forName("kotlin.jvm.functions.Function_TODO")
+                //notNullType.isSuspendFunction() || notNullType.isKSuspendFunction() -> throw AssertionError()
+
+                fqName == "kotlin.Enum" -> Enum::class.java
+                fqName == "kotlin.collections.Collection" || fqName == "kotlin.collections.MutableCollection" -> Collection::class.java
+                fqName == "kotlin.collections.List" || fqName == "kotlin.collections.MutableList" -> List::class.java
+                fqName == "kotlin.collections.Set" || fqName == "kotlin.collections.MutableSet" -> Set::class.java
+                fqName == "kotlin.collections.Map" || fqName == "kotlin.collections.MutableMap" -> Map::class.java
+                fqName == "kotlin.collections.ListIterator" || fqName == "kotlin.collections.MutableListIterator" -> ListIterator::class.java
+                fqName == "kotlin.collections.Iterator" || fqName == "kotlin.collections.MutableIterator" -> Iterator::class.java
+                fqName == "kotlin.collections.Map.Entry" || fqName == "kotlin.collections.MutableMap.MutableEntry" -> Map.Entry::class.java
+                fqName == "kotlin.collections.ListIterator" || fqName == "kotlin.collections.MutableListIterator" -> ListIterator::class.java
+
                 owner.hasAnnotation(evaluateIntrinsicAnnotation) -> Class.forName(owner!!.getEvaluateIntrinsicValue())
                 fqName == null -> Any::class.java // null if this.isTypeParameter()
-                else -> {
-                    val javaClassId = JavaToKotlinClassMap.mapKotlinToJava(FqNameUnsafe(fqName))
-                    val className = javaClassId?.asSingleFqName()?.asString() ?: fqName
-                    Class.forName(className.replaceDotWithDollarForInnerClasses())
-                }
+                else -> Class.forName(fqName.replaceDotWithDollarForInnerClasses())
             }
         }
 
